@@ -12,7 +12,6 @@ Description: Anonymizes CDISC-standard datasets (SDTM, ADaM) while preserving
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
 Suggests:
     testthat (>= 3.0.0),
     safetyData,
@@ -20,3 +19,4 @@ Suggests:
     rmarkdown
 VignetteBuilder: knitr
 Config/testthat/edition: 3
+Config/roxygen2/version: 8.0.0

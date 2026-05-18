@@ -2,26 +2,36 @@
 % Please edit documentation in R/free_text.R
 \name{mask_free_text}
 \alias{mask_free_text}
-\title{Mask free-text / verbatim columns}
+\title{Mask free-text / verbatim / categorical columns}
 \usage{
-mask_free_text(df, cols, key, placeholder = "[REDACTED]")
+mask_free_text(df, cols, key, prefix = NULL)
 }
 \arguments{
 \item{df}{A data frame.}
 
-\item{cols}{Character vector of free-text column names.}
+\item{cols}{Character vector of column names to mask.}
 
 \item{key}{A \code{cdiscmask_key} created by \code{\link[=new_mask_key]{new_mask_key()}}.}
 
-\item{placeholder}{Replacement string (default \code{"[REDACTED]"}).}
+\item{prefix}{Named character vector mapping column names to label prefixes,
+or a single string used for every column. Defaults to the column name,
+giving labels like \code{AETERM-0001}, \code{ARM-0001}, \code{STUDYID-0001}.}
 }
 \value{
-\code{df} with \code{cols} replaced by \code{placeholder}. \code{key} is updated in
-place with the original column vectors (keyed by column name).
+\code{df} with \code{cols} replaced by opaque labels. \code{key} is updated in
+place with the original-to-label mapping for each column.
 }
 \description{
-Replaces narrative or verbatim fields with a generic placeholder and stores
-the original values in \code{key} so they can be restored by \code{\link[=unmask_domain]{unmask_domain()}}.
-Free text cannot be shifted or pseudonymized reliably because it often
-contains names, locations, and other PII.
+Replaces each unique value with an opaque label that preserves category
+structure (e.g. all rows with \code{"DIARRHOEA"} get the same label, so counts
+and within-subject comparisons remain valid). Labels are formed as
+\verb{<prefix>-XXXX} where \code{prefix} defaults to the column name.
+}
+\details{
+If a column is masked again in a later call (e.g. a second domain containing
+the same column), existing mappings are reused so that the same original
+value always receives the same label.
+
+The mapping (original → label) is stored in \code{key$free_text[[col]]} so that
+\code{\link[=unmask_domain]{unmask_domain()}} can reverse it.
 }

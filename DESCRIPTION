@@ -1,0 +1,22 @@
+Package: cdiscmask
+Title: Anonymize CDISC Clinical Trial Data
+Version: 0.0.0.9000
+Authors@R:
+    person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+Description: Anonymizes CDISC-standard datasets (SDTM, ADaM) while preserving
+    data types and cross-domain consistency. Subject identifiers are replaced
+    with pseudonyms, dates are shifted by a per-subject random offset applied
+    uniformly across all domains, and a reversible key is stored so that
+    original data can be recovered. Sensitive columns are detected automatically
+    based on CDISC variable naming conventions.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Suggests:
+    testthat (>= 3.0.0),
+    safetyData,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Config/testthat/edition: 3

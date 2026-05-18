@@ -25,9 +25,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 devtools::load_all()                                  # load package interactively
 devtools::test()                                      # run all tests
 devtools::check()                                     # full R CMD check
+devtools::check(args = "--no-manual")                 # skip PDF manual (if pdflatex unavailable)
 devtools::document()                                  # regenerate NAMESPACE + man/ from roxygen
 testthat::test_file("tests/testthat/test-mask.R")    # run a single test file
 ```
+
+The project `.Rprofile` calls `tinytex::use_tinytex()` to put pdflatex on PATH for `R CMD check`. If the PDF manual build still fails, use `devtools::check(args = "--no-manual")` or add `--no-manual` in RStudio under *Build → More → Check Package Options*.
 
 ## Architecture
 
@@ -61,4 +64,4 @@ save_mask_key() / load_mask_key() # persist key to .rds
 - **Numeric types are preserved** — AGE and similar numeric variables are never converted to categories. Only subject IDs (character) and dates are transformed.
 - **Partial ISO-8601 dates** (`"2020-03"`, `"2020"`) and CDISC `"--"` unknown-date placeholders must be handled in `shift_dates()` without coercing to a full date object.
 - **Day-offset columns** (CDISC suffix `DY`, e.g. `AEDY`) are plain integers representing study-day; they should be shifted by the same per-subject offset as dates, with no date parsing.
-- **Free text is destructive** — verbatim/narrative columns cannot be shifted or pseudonymized reliably, so they are replaced with a placeholder and the originals are stored in the key.
+- **Free text is category-preserving** — verbatim/narrative columns and categorical columns (ARM, TRT, STUDYID) are replaced with opaque labels like `AETERM-0001` that preserve category structure (same original value always gets the same label). The original → label map is stored in `key$free_text[[col]]` so values can be recovered exactly by inverting it.

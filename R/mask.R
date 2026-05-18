@@ -97,6 +97,7 @@ mask_cdisc <- function(domains, key = NULL) {
 #' @param key The `cdiscmask_key` used when masking.
 #'
 #' @return The original (unmasked) data frame.
+#' @importFrom methods as
 #' @export
 unmask_domain <- function(df, key) {
   stopifnot(inherits(key, "cdiscmask_key"), is.data.frame(df))

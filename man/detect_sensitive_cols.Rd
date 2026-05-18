@@ -15,16 +15,18 @@ future domain-specific rules; currently unused.}
 \value{
 A named list with elements:
 \itemize{
-\item \code{subject_id}: columns that hold subject identifiers (\code{USUBJID}, \code{SUBJID})
+\item \code{subject_id}: row-level subject identifiers (\code{USUBJID}, \code{SUBJID})
 \item \code{dates}: character DTC/DTM columns and \code{Date}-class DT columns
 \item \code{dy}: integer study-day columns (suffix \code{DY})
-\item \code{free_text}: verbatim / narrative columns (suffix \code{TERM}, \code{TRT}, \code{NAM},
-\code{TEXT}, or \code{VERBATIM})
+\item \code{free_text}: verbatim / narrative / categorical columns that need
+category-preserving masking: verbatim terms (TERM, TRT, NAM, TEXT,
+VERBATIM suffixes), study identifier (STUDYID), and character treatment /
+arm assignment columns (ARM*, ACTARM*, character TRT* columns)
 \item \code{other}: reserved for future domain-specific flagging
 }
 }
 \description{
 Identifies columns that should be anonymized based on CDISC variable naming
-conventions. Returns separate vectors for each sensitivity category so that
-callers can apply different masking strategies per type.
+conventions and column classes. Returns separate vectors for each sensitivity
+category so that callers can apply different masking strategies per type.
 }

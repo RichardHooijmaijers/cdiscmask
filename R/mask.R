@@ -106,9 +106,13 @@ unmask_domain <- function(df, key) {
 
   inv_map <- setNames(names(key$id_map), key$id_map)  # pseudonym → original
 
-  # 1. Restore free text (stored in original column order)
+  # 1. Restore free text by inverting the original → label map
   for (col in intersect(cols$free_text, names(df))) {
-    if (!is.null(key$free_text[[col]])) df[[col]] <- key$free_text[[col]]
+    col_map <- key$free_text[[col]]
+    if (!is.null(col_map)) {
+      ft_inv    <- setNames(names(col_map), col_map)  # label → original
+      df[[col]] <- unname(ft_inv[as.character(df[[col]])])
+    }
   }
 
   # 2. Restore subject IDs (needed to look up date offsets)

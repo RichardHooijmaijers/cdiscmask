@@ -21,6 +21,14 @@
 #'   from which offsets are sampled (default `c(-365L, 365L)`).
 #'
 #' @return `df` with `cols` shifted. `key` is updated in place.
+#' @examples
+#' key <- new_mask_key()
+#' df  <- data.frame(
+#'   USUBJID = c("01-001", "01-001", "01-002"),
+#'   RFSTDTC = c("2020-01-15", "2020-06-01", "2019-11-20"),
+#'   stringsAsFactors = FALSE
+#' )
+#' shift_dates(df, cols = "RFSTDTC", key = key)
 #' @export
 shift_dates <- function(df, cols, subject_col = "USUBJID", key,
                         range = c(-365L, 365L)) {

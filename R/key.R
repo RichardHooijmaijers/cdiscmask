@@ -6,6 +6,9 @@
 #' substitutions and date shifts.
 #'
 #' @return An object of class `cdiscmask_key`.
+#' @examples
+#' key <- new_mask_key()
+#' key
 #' @export
 new_mask_key <- function() {
   key <- new.env(parent = emptyenv())
@@ -32,6 +35,10 @@ print.cdiscmask_key <- function(x, ...) {
 #'
 #' @param key A `cdiscmask_key` object.
 #' @param path File path for the `.rds` file.
+#' @examples
+#' key <- new_mask_key()
+#' tmp <- tempfile(fileext = ".rds")
+#' save_mask_key(key, tmp)
 #' @export
 save_mask_key <- function(key, path) {
   stopifnot(inherits(key, "cdiscmask_key"))
@@ -48,6 +55,12 @@ save_mask_key <- function(key, path) {
 #'
 #' @param path Path to an `.rds` file previously written by [save_mask_key()].
 #' @return A `cdiscmask_key` object.
+#' @examples
+#' key <- new_mask_key()
+#' tmp <- tempfile(fileext = ".rds")
+#' save_mask_key(key, tmp)
+#' key2 <- load_mask_key(tmp)
+#' identical(key$id_map, key2$id_map)
 #' @export
 load_mask_key <- function(path) {
   snapshot <- readRDS(path)

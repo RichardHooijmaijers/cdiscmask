@@ -14,3 +14,8 @@ save_mask_key(key, path)
 \description{
 Save a masking key to disk
 }
+\examples{
+key <- new_mask_key()
+tmp <- tempfile(fileext = ".rds")
+save_mask_key(key, tmp)
+}

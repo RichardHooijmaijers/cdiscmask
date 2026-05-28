@@ -30,3 +30,12 @@ Identifies columns that should be anonymized based on CDISC variable naming
 conventions and column classes. Returns separate vectors for each sensitivity
 category so that callers can apply different masking strategies per type.
 }
+\examples{
+df <- data.frame(
+  USUBJID = "01-001",
+  RFSTDTC = "2020-01-15",
+  AGE     = 45L,
+  stringsAsFactors = FALSE
+)
+detect_sensitive_cols(df)
+}

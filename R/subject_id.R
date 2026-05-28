@@ -11,6 +11,11 @@
 #'   (default `"SUBJ-"`).
 #'
 #' @return `df` with `col` replaced by pseudonyms. `key` is updated in place.
+#' @examples
+#' key <- new_mask_key()
+#' df  <- data.frame(USUBJID = c("01-001", "01-002", "01-001"),
+#'                   stringsAsFactors = FALSE)
+#' mask_subject_id(df, col = "USUBJID", key = key)
 #' @export
 mask_subject_id <- function(df, col = "USUBJID", key, prefix = "SUBJ-") {
   stopifnot(inherits(key, "cdiscmask_key"), col %in% names(df))

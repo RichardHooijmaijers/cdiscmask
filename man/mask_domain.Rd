@@ -38,3 +38,10 @@ The original column classification is stored as the \code{"cdiscmask_cols"}
 attribute on the returned data frame so that \code{\link[=unmask_domain]{unmask_domain()}} knows what to
 restore.
 }
+\examples{
+if (requireNamespace("safetyData", quietly = TRUE)) {
+  key       <- new_mask_key()
+  dm_masked <- mask_domain(safetyData::sdtm_dm, key, domain = "DM")
+  dm_masked[1:3, c("USUBJID", "RFSTDTC", "AGE", "SEX")]
+}
+}

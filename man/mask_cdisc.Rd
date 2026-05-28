@@ -21,3 +21,12 @@ Convenience wrapper that calls \code{\link[=mask_domain]{mask_domain()}} on each
 using a shared \code{key}, guaranteeing cross-domain consistency of subject-ID
 pseudonyms and date shifts.
 }
+\examples{
+if (requireNamespace("safetyData", quietly = TRUE)) {
+  masked <- mask_cdisc(list(
+    DM = safetyData::sdtm_dm,
+    AE = safetyData::sdtm_ae
+  ))
+  attr(masked, "key")
+}
+}

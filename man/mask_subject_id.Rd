@@ -24,3 +24,9 @@ Maps every unique value in \code{col} to a new opaque identifier and stores the
 mapping in \code{key}. If a subject was already mapped by a previous call (e.g.
 from another domain), the existing pseudonym is reused.
 }
+\examples{
+key <- new_mask_key()
+df  <- data.frame(USUBJID = c("01-001", "01-002", "01-001"),
+                  stringsAsFactors = FALSE)
+mask_subject_id(df, col = "USUBJID", key = key)
+}

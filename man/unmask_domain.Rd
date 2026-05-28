@@ -20,3 +20,11 @@ that were masked by \code{\link[=mask_domain]{mask_domain()}} or \code{\link[=ma
 carry the \code{"cdiscmask_cols"} attribute set during masking, and its row order
 must be unchanged.
 }
+\examples{
+if (requireNamespace("safetyData", quietly = TRUE)) {
+  key       <- new_mask_key()
+  dm_masked <- mask_domain(safetyData::sdtm_dm, key)
+  dm_back   <- unmask_domain(dm_masked, key)
+  identical(dm_back$USUBJID, safetyData::sdtm_dm$USUBJID)
+}
+}

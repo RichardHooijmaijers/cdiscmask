@@ -18,6 +18,14 @@
 #'     arm assignment columns (ARM*, ACTARM*, character TRT* columns)
 #'   - `other`: reserved for future domain-specific flagging
 #'
+#' @examples
+#' df <- data.frame(
+#'   USUBJID = "01-001",
+#'   RFSTDTC = "2020-01-15",
+#'   AGE     = 45L,
+#'   stringsAsFactors = FALSE
+#' )
+#' detect_sensitive_cols(df)
 #' @export
 detect_sensitive_cols <- function(df, domain = NULL) {
   nms <- names(df)

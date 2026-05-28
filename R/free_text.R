@@ -21,6 +21,11 @@
 #'
 #' @return `df` with `cols` replaced by opaque labels. `key` is updated in
 #'   place with the original-to-label mapping for each column.
+#' @examples
+#' key <- new_mask_key()
+#' df  <- data.frame(AETERM = c("HEADACHE", "NAUSEA", "HEADACHE"),
+#'                   stringsAsFactors = FALSE)
+#' mask_free_text(df, cols = "AETERM", key = key)
 #' @export
 mask_free_text <- function(df, cols, key, prefix = NULL) {
   stopifnot(inherits(key, "cdiscmask_key"))

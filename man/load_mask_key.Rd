@@ -15,3 +15,10 @@ A \code{cdiscmask_key} object.
 \description{
 Load a masking key from disk
 }
+\examples{
+key <- new_mask_key()
+tmp <- tempfile(fileext = ".rds")
+save_mask_key(key, tmp)
+key2 <- load_mask_key(tmp)
+identical(key$id_map, key2$id_map)
+}

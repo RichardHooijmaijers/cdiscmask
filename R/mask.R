@@ -22,6 +22,12 @@
 #'
 #' @return A data frame with sensitive values replaced. The attribute
 #'   `"cdiscmask_cols"` records which columns were masked.
+#' @examples
+#' if (requireNamespace("safetyData", quietly = TRUE)) {
+#'   key       <- new_mask_key()
+#'   dm_masked <- mask_domain(safetyData::sdtm_dm, key, domain = "DM")
+#'   dm_masked[1:3, c("USUBJID", "RFSTDTC", "AGE", "SEX")]
+#' }
 #' @export
 mask_domain <- function(df, key, domain = NULL, cols = NULL) {
   stopifnot(inherits(key, "cdiscmask_key"), is.data.frame(df))
@@ -70,6 +76,14 @@ mask_domain <- function(df, key, domain = NULL, cols = NULL) {
 #'
 #' @return A list with the same names as `domains`, each element being the
 #'   masked data frame. The key used is attached as attribute `"key"`.
+#' @examples
+#' if (requireNamespace("safetyData", quietly = TRUE)) {
+#'   masked <- mask_cdisc(list(
+#'     DM = safetyData::sdtm_dm,
+#'     AE = safetyData::sdtm_ae
+#'   ))
+#'   attr(masked, "key")
+#' }
 #' @export
 mask_cdisc <- function(domains, key = NULL) {
   stopifnot(is.list(domains), !is.null(names(domains)))
@@ -97,6 +111,13 @@ mask_cdisc <- function(domains, key = NULL) {
 #' @param key The `cdiscmask_key` used when masking.
 #'
 #' @return The original (unmasked) data frame.
+#' @examples
+#' if (requireNamespace("safetyData", quietly = TRUE)) {
+#'   key       <- new_mask_key()
+#'   dm_masked <- mask_domain(safetyData::sdtm_dm, key)
+#'   dm_back   <- unmask_domain(dm_masked, key)
+#'   identical(dm_back$USUBJID, safetyData::sdtm_dm$USUBJID)
+#' }
 #' @importFrom methods as
 #' @export
 unmask_domain <- function(df, key) {

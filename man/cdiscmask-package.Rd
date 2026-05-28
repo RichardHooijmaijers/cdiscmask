@@ -6,14 +6,25 @@
 \alias{cdiscmask-package}
 \title{cdiscmask: Anonymize CDISC Clinical Trial Data}
 \description{
+\if{html}{\figure{logo.svg}{options: style='float: right' alt='logo' width='120'}}
+
 Anonymizes CDISC-standard datasets (SDTM, ADaM) while preserving data types and cross-domain consistency. Subject identifiers are replaced with pseudonyms, dates are shifted by a per-subject random offset applied uniformly across all domains, and a reversible key is stored so that original data can be recovered. Sensitive columns are detected automatically based on CDISC variable naming conventions.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://richardhooijmaijers.github.io/cdiscmask}
+  \item \url{https://github.com/RichardHooijmaijers/cdiscmask}
+  \item Report bugs at \url{https://github.com/RichardHooijmaijers/cdiscmask/issues}
+}
+
+}
 \author{
-\strong{Maintainer}: First Last \email{first.last@example.com}
+\strong{Maintainer}: Richard Hooijmaijers \email{richardhooijmaijers@gmail.com} [copyright holder]
 
 Authors:
 \itemize{
-  \item First Last \email{first.last@example.com}
+  \item Richard Hooijmaijers \email{richardhooijmaijers@gmail.com} [copyright holder]
 }
 
 }

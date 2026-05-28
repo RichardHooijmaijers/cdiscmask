@@ -35,3 +35,9 @@ value always receives the same label.
 The mapping (original → label) is stored in \code{key$free_text[[col]]} so that
 \code{\link[=unmask_domain]{unmask_domain()}} can reverse it.
 }
+\examples{
+key <- new_mask_key()
+df  <- data.frame(AETERM = c("HEADACHE", "NAUSEA", "HEADACHE"),
+                  stringsAsFactors = FALSE)
+mask_free_text(df, cols = "AETERM", key = key)
+}

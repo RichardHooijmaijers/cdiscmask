@@ -15,3 +15,7 @@ that anonymization can be reversed. Pass the \strong{same} key object when
 masking multiple domains to ensure cross-domain consistency of subject-ID
 substitutions and date shifts.
 }
+\examples{
+key <- new_mask_key()
+key
+}

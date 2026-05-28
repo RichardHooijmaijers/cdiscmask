@@ -1,0 +1,136 @@
+# _pkgdown.yml — cdiscmask
+# Site config for pkgdown 2.x (Bootstrap 5 + bslib).
+# Drop this at the repo root; run `pkgdown::build_site()`.
+
+url: https://richardhooijmaijers.github.io/cdiscmask/
+
+# -----------------------------------------------------------------------------
+# Template — colors, fonts, navbar
+# -----------------------------------------------------------------------------
+template:
+  bootstrap: 5
+  light-switch: true            # let users toggle dark mode
+  bslib:
+    # Surface
+    bg: "#fbfaf6"               # paper
+    fg: "#15110a"               # ink
+    # Brand accent (links, buttons, focus rings)
+    primary: "#e9663b"          # shirt orange
+    # Navbar — pulled from the sticker
+    navbar-bg: "#0f3d3e"        # deep teal
+    navbar-color: "#f6f1e7"
+    # Typography
+    base_font:
+      google: "Inter"
+    heading_font:
+      google: "Inter"
+    code_font:
+      google:
+        family: "JetBrains Mono"
+        wght: "400;500;700"
+    # Misc
+    border-radius: "4px"
+    border-color: "rgba(21,17,10,0.12)"
+    headings-font-weight: 700
+
+  opengraph:
+    image:
+      src: og-image.png
+      alt: "cdiscmask — anonymise CDISC clinical-trial data"
+
+# -----------------------------------------------------------------------------
+# Navbar
+# -----------------------------------------------------------------------------
+navbar:
+  bg: dark
+  structure:
+    left:  [intro, reference, articles, news]
+    right: [search, github, lightswitch]
+  components:
+    intro:
+      text: Get started
+      href: articles/cdiscmask-intro.html
+
+# -----------------------------------------------------------------------------
+# Home
+# -----------------------------------------------------------------------------
+home:
+  title: cdiscmask · Anonymise CDISC clinical-trial data
+  description: >
+    Mask subject identifiers, shift dates, and redact free-text in SDTM and
+    ADaM datasets — so you can share, present, or test against real-looking
+    data without exposing real subjects.
+  sidebar:
+    structure: [links, license, community, citation, authors, dev]
+  links:
+  - text: Browse source code
+    href: https://github.com/RichardHooijmaijers/cdiscmask
+  - text: Report a bug
+    href: https://github.com/RichardHooijmaijers/cdiscmask/issues
+
+# -----------------------------------------------------------------------------
+# Reference — group functions into themed sections.
+# Replace the `contents:` lists with your actual function names, or tag
+# functions with @concept "<group>" in roxygen to use has_concept() filters.
+# -----------------------------------------------------------------------------
+reference:
+- title: Subject identifiers
+  desc: >
+    Mask or pseudonymise USUBJID and other subject-level keys. Mappings can
+    be persisted for reproducible re-runs.
+  contents:
+  - mask_subject_id
+
+- title: Date shifting
+  desc: >
+    Apply per-subject date offsets so intervals are preserved while absolute
+    dates are scrambled.
+  contents:
+  - shift_dates
+
+- title: Free-text redaction
+  desc: >
+    Scrub comments, AE verbatim terms, and other free-text fields.
+  contents:
+  - mask_free_text
+
+- title: Pipeline helpers
+  desc: Convenience wrappers for masking a whole study at once.
+  contents:
+  - mask_cdisc
+  - mask_domain
+  - unmask_domain
+  - detect_sensitive_cols
+  - new_mask_key
+  - save_mask_key
+  - load_mask_key
+
+# -----------------------------------------------------------------------------
+# Articles
+# -----------------------------------------------------------------------------
+articles:
+- title: Get started
+  navbar: ~
+  contents:
+  - cdiscmask-intro
+
+# -----------------------------------------------------------------------------
+# News
+# -----------------------------------------------------------------------------
+news:
+  releases:
+  - text: "Release notes"
+    href: https://github.com/RichardHooijmaijers/cdiscmask/blob/main/NEWS.md
+
+# -----------------------------------------------------------------------------
+# Development mode (auto-detect from version suffix)
+# -----------------------------------------------------------------------------
+development:
+  mode: auto
+
+# -----------------------------------------------------------------------------
+# Authors — surface the maintainer on the home sidebar
+# -----------------------------------------------------------------------------
+authors:
+  Richard Hooijmaijers:
+    href: https://github.com/RichardHooijmaijers

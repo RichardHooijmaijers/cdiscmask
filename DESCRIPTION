@@ -1,14 +1,16 @@
 Package: cdiscmask
 Title: Anonymize CDISC Clinical Trial Data
-Version: 0.0.0.9000
+Version: 0.1.0
 Authors@R:
-    person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
+    person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph"))
 Description: Anonymizes CDISC-standard datasets (SDTM, ADaM) while preserving
     data types and cross-domain consistency. Subject identifiers are replaced
     with pseudonyms, dates are shifted by a per-subject random offset applied
     uniformly across all domains, and a reversible key is stored so that
     original data can be recovered. Sensitive columns are detected automatically
     based on CDISC variable naming conventions.
+URL: https://richardhooijmaijers.github.io/cdiscmask, https://github.com/RichardHooijmaijers/cdiscmask
+BugReports: https://github.com/RichardHooijmaijers/cdiscmask/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)

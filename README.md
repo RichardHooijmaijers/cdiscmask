@@ -1,4 +1,4 @@
-# cdiscmask
+# cdiscmask <img src="man/figures/logo.png" align="right" height="139" alt="cdiscmask logo" />
 
 `cdiscmask` is an R package for anonymizing CDISC clinical trial data (SDTM and ADaM). It replaces subject identifiers with pseudonyms, shifts dates by a per-subject random offset, and redacts verbatim/categorical text — while leaving non-sensitive columns (AGE, SEX, lab units, normal ranges) completely unchanged.
 

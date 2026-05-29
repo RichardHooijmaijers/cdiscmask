@@ -9,7 +9,7 @@ Description: Anonymizes CDISC-standard datasets (SDTM, ADaM) while preserving
     uniformly across all domains, and a reversible key is stored so that
     original data can be recovered. Sensitive columns are detected automatically
     based on CDISC variable naming conventions.
-URL: https://richardhooijmaijers.github.io/cdiscmask, https://github.com/RichardHooijmaijers/cdiscmask, https://richardhooijmaijers.github.io/cdiscmask/
+URL:https://github.com/RichardHooijmaijers/cdiscmask, https://richardhooijmaijers.github.io/cdiscmask/
 BugReports: https://github.com/RichardHooijmaijers/cdiscmask/issues
 License: MIT + file LICENSE
 Encoding: UTF-8

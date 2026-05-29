@@ -1,0 +1,148 @@
+# cdiscmask
+
+`cdiscmask` is an R package for anonymizing CDISC clinical trial data
+(SDTM and ADaM). It replaces subject identifiers with pseudonyms, shifts
+dates by a per-subject random offset, and redacts verbatim/categorical
+text — while leaving non-sensitive columns (AGE, SEX, lab units, normal
+ranges) completely unchanged.
+
+Key properties:
+
+- **Cross-domain consistency** — the same subject ID and date shift are
+  applied identically across all domains when a shared masking key is
+  used.
+- **Reversible** — every transformation is recorded in a masking key so
+  original data can be recovered exactly.
+- **Type-preserving** — numeric columns stay numeric; character columns
+  stay character; `Date`-class columns stay `Date`.
+- **Auto-detection** — sensitive columns are identified from CDISC
+  naming conventions (no manual column lists required).
+
+## Installation
+
+The package is not yet on CRAN. Install from GitHub:
+
+``` r
+
+# install.packages("remotes")
+remotes::install_github("RichardHooijmaijers/cdiscmask")
+```
+
+## Quick start
+
+``` r
+
+library(cdiscmask)
+library(safetyData)  # provides sdtm_dm, sdtm_ae, sdtm_lb, adam_adsl, ...
+
+# Mask multiple domains with a single call — one shared key guarantees consistency
+masked <- mask_cdisc(list(
+  DM = sdtm_dm,
+  AE = sdtm_ae,
+  LB = sdtm_lb
+))
+
+# Inspect: AGE/SEX untouched, USUBJID pseudonymised, dates shifted
+masked$DM[1:3, c("USUBJID", "RFSTDTC", "AGE", "SEX", "ARM")]
+
+# Recover original data using the attached key
+key <- attr(masked, "key")
+dm_original <- unmask_domain(masked$DM, key)
+
+# Persist the key so you can unmask in a later session
+save_mask_key(key, "masking_key.rds")
+key <- load_mask_key("masking_key.rds")
+```
+
+## How it works
+
+All masking state lives in a `cdiscmask_key` object. Pass the same key
+to every
+[`mask_domain()`](https://richardhooijmaijers.github.io/cdiscmask/reference/mask_domain.md)
+call and the package guarantees:
+
+- A subject pseudonymised as `SUBJ-0042` in DM will be `SUBJ-0042` in
+  every other domain.
+- Dates for that subject are shifted by exactly the same number of days
+  everywhere.
+
+``` r
+
+key <- new_mask_key()
+
+dm_masked <- mask_domain(sdtm_dm, key, domain = "DM")
+ae_masked <- mask_domain(sdtm_ae, key, domain = "AE")  # reuses mappings from above
+```
+
+### What gets masked
+
+| Column type | Detection rule | Transformation |
+|----|----|----|
+| Subject ID | `USUBJID`, `SUBJID` | Replaced with opaque pseudonym (`SUBJ-0001`, …) |
+| Date / datetime | `DTC`/`DTM` suffix (SDTM) or `Date` class (ADaM) | Shifted by per-subject random day offset |
+| Study day | `DY` suffix | Shifted by the same integer offset |
+| Verbatim / categorical | `TERM`, `TRT`, `NAM`, `TEXT`, `VERBATIM` suffix; `STUDYID`; character `ARM*`/`TRT*` columns | Replaced with category-preserving label (`AETERM-0001`, …) |
+| Everything else | — | Unchanged |
+
+Partial ISO-8601 dates (`"2020-03"`, `"2020"`) and CDISC `"--"`
+placeholders are left untouched.
+
+## Vignette
+
+A full walkthrough with cross-domain verification and ADaM examples:
+
+``` r
+
+vignette("cdiscmask-intro", package = "cdiscmask")
+```
+
+# Package index
+
+## Subject identifiers
+
+Mask or pseudonymise USUBJID and other subject-level keys. Mappings can
+be persisted for reproducible re-runs.
+
+- [`mask_subject_id()`](https://richardhooijmaijers.github.io/cdiscmask/reference/mask_subject_id.md)
+  : Replace subject identifiers with pseudonyms
+
+## Date shifting
+
+Apply per-subject date offsets so intervals are preserved while absolute
+dates are scrambled.
+
+- [`shift_dates()`](https://richardhooijmaijers.github.io/cdiscmask/reference/shift_dates.md)
+  : Shift date/datetime columns by a per-subject random offset
+
+## Free-text redaction
+
+Scrub comments, AE verbatim terms, and other free-text fields.
+
+- [`mask_free_text()`](https://richardhooijmaijers.github.io/cdiscmask/reference/mask_free_text.md)
+  : Mask free-text / verbatim / categorical columns
+
+## Pipeline helpers
+
+Convenience wrappers for masking a whole study at once.
+
+- [`mask_cdisc()`](https://richardhooijmaijers.github.io/cdiscmask/reference/mask_cdisc.md)
+  : Mask multiple CDISC domains consistently
+- [`mask_domain()`](https://richardhooijmaijers.github.io/cdiscmask/reference/mask_domain.md)
+  : Mask a single CDISC domain data frame
+- [`unmask_domain()`](https://richardhooijmaijers.github.io/cdiscmask/reference/unmask_domain.md)
+  : Reverse anonymization for a single domain
+- [`detect_sensitive_cols()`](https://richardhooijmaijers.github.io/cdiscmask/reference/detect_sensitive_cols.md)
+  : Detect sensitive columns in a CDISC dataset
+- [`new_mask_key()`](https://richardhooijmaijers.github.io/cdiscmask/reference/new_mask_key.md)
+  : Create an empty masking key
+- [`save_mask_key()`](https://richardhooijmaijers.github.io/cdiscmask/reference/save_mask_key.md)
+  : Save a masking key to disk
+- [`load_mask_key()`](https://richardhooijmaijers.github.io/cdiscmask/reference/load_mask_key.md)
+  : Load a masking key from disk
+
+# Articles
+
+### Get started
+
+- [Getting started with
+  cdiscmask](https://richardhooijmaijers.github.io/cdiscmask/articles/cdiscmask-intro.md):
